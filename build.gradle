@@ -1,0 +1,45 @@
+buildscript {
+    repositories {
+        maven { url "http://repo.spring.io/libs-release" }
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        //Required dependency for spring-boot plugin
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.2.1.RELEASE'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+apply plugin: 'war'
+apply plugin: 'spring-boot'
+
+war {
+    baseName = 'spring4helloworld'
+    version =  '0.1'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile("log4j:log4j:1.2.17")
+    compile("junit:junit:4.4")
+    compile 'org.springframework.boot:spring-boot-starter-web'  
+    compile("org.springframework.boot:spring-boot-starter-actuator")     
+    //Required dependency for JSP
+    providedRuntime 'org.apache.tomcat.embed:tomcat-embed-jasper'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.12'
+}
+
+task generateJavadoc(type: Javadoc) {
+	source = sourceSets.main.allJava
+	destinationDir = reporting.file("spring4helloworld")
+}
